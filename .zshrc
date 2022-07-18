@@ -21,7 +21,6 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 plugins=(
-  git
   zsh-autosuggestions
   zsh-syntax-highlighting
 )
@@ -52,7 +51,6 @@ setgoenv() {
 }
 
 # Aliases
-alias git=git.exe
 alias ll="ls -l"
 alias la="ls -A"
 alias lla="ll -A"
