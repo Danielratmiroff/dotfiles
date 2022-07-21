@@ -56,13 +56,18 @@ alias la="ls -A"
 alias lla="ll -A"
 alias lg='lazygit'
 alias vi='nvim'
+alias fd=`which fdfind`
+
+alias ab='docker build -t ansible .'
+alias ar='docker run -it --rm ansible bash'
 
 alias docker-clean=' \
    docker kill $(docker ps -q) ; \
    docker container prune -f ; \
    docker image prune -f ; \
    docker network prune -f ; \
-   docker volume prune -f '
+   docker volume prune -f ; \
+   docker system prune -a --volumes '
 
 # Load nvm
 export NVM_DIR="$HOME/.nvm"
@@ -79,3 +84,9 @@ PS1='$(show_virtual_env)'$PS1
 
 # direnv
 eval "$(direnv hook zsh)"	
+
+# Virtual env wrapper
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/Devel
+export VIRTUALENVWRAPPER_PYTHON=`which python3`
+source ~/.local/bin/virtualenvwrapper.sh
