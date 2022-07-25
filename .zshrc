@@ -58,9 +58,6 @@ alias lg='lazygit'
 alias vi='nvim'
 alias fd=`which fdfind`
 
-alias ab='docker build -t ansible .'
-alias ar='docker run -it --rm ansible bash'
-
 alias docker-clean=' \
    docker kill $(docker ps -q) ; \
    docker container prune -f ; \
