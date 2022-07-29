@@ -39,10 +39,12 @@ alias vim nvim
 alias fd (which fdfind)
 alias lg 'lazygit'
 
+alias ls 'exa --icons'
+alias la 'exa -a --icons'
 alias ld 'exa -TD --level=2 --icons'
 alias lda 'exa -TDa --level=2 --icons'
-alias ll 'exa -lT -g --icons --level=2 --no-user --no-permissions'
-alias lla 'exa -alT -g --icons --level=2 --no-user --octal-permissions'
+alias ll 'exa -lT -g --sort=type --icons --level=2 --no-user --no-permissions'
+alias lla 'exa -alT -g --sort=type --icons --level=2 --no-user --octal-permissions'
 
 # Path
 fish_add_path '/mnt/c/Program\ Files\ \(x86\)/Yarn/bin/' 
