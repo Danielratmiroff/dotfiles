@@ -3,6 +3,8 @@
 cd ~
 set -g -x fish_greeting ''
 
+source ~/.secret-env-vars
+
 function source_config 
   source ~/.config/fish/config.fish
   source ~/.config/omf/init.fish
