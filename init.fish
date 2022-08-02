@@ -7,6 +7,7 @@ cd ~
 # -------------------
 source ~/.dotfiles/.secret-env-vars
 
+set -g -x theme_color_scheme "terminal-dark"
 set -g -x fish_greeting ''
 set -g -x GO111MODULE "on"
 
@@ -18,7 +19,7 @@ alias nvim '~/downloads/nvim-linux64/bin/nvim'
 alias vi nvim
 alias vim nvim
 alias fd (which fdfind)
-alias lg 'lazygit'
+alias lg lazygit
 
 alias ls 'exa --icons'
 alias la 'exa -a --icons'
@@ -32,7 +33,6 @@ alias lla 'exa -alT -g --sort=type --icons --level=2 --no-user --octal-permissio
 # Helper functions
 # -------------------
 function source_config 
-  source ~/.config/fish/config.fish
   source ~/.config/omf/init.fish
 end
 
@@ -66,7 +66,7 @@ fish_add_path '~/.local/bin/'
 # Go stuff
 # -------------------
 fish_add_path '/usr/local/go-1.18/bin/'
-fish_add_path 'go/bin'
+fish_add_path $HOME/go/bin
 fish_add_path $HOME/go
 fish_add_path $GOPATH/bin
 
