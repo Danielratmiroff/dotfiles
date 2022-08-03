@@ -28,6 +28,8 @@ alias lda 'exa -TDa --level=2 --icons'
 alias ll 'exa -lT -g --sort=type --icons --level=2 --no-user --no-permissions'
 alias lla 'exa -alT -g --sort=type --icons --level=2 --no-user --octal-permissions'
 
+alias cat='bat --paging=never'
+alias catplain='cat --style=plain'
 
 # -------------------
 # Helper functions
@@ -46,29 +48,28 @@ function docker-clean
   docker-compose down --volumes
   docker rm $(docker ps -aq)
   docker stop $(docker ps -aq)
-  docker kill $(docker ps -aq) ; 
+  docker kill $(docker ps -aq) 
   docker system prune -af --volumes 
 end
 
 
 
 # -------------------
-# Path
+# Set Path Variable
 # -------------------
-fish_add_path '/mnt/c/Program\ Files\ \(x86\)/Yarn/bin/' 
-fish_add_path '/home/daniel/.nvm/versions/node/v16.11.0/bin'
-fish_add_path 'bin'
-fish_add_path '~/bin'
-fish_add_path '~/.local/bin/'
+function set_path_variables
+  fish_add_path '/mnt/c/Program\ Files\ \(x86\)/Yarn/bin/' 
+  fish_add_path '/home/daniel/.nvm/versions/node/v16.11.0/bin' 
+  fish_add_path 'bin' 
+  fish_add_path '~/bin'
+  fish_add_path '~/.local/bin/'
 
-
-# -------------------
-# Go stuff
-# -------------------
-fish_add_path '/usr/local/go-1.18/bin/'
-fish_add_path $HOME/go/bin
-fish_add_path $HOME/go
-fish_add_path $GOPATH/bin
+  # Go stuff
+  fish_add_path '/usr/local/go-1.18/bin/'
+  fish_add_path '$HOME/go/bin'
+  fish_add_path '$HOME/go'
+  fish_add_path '$GOPATH/bin'
+end
 
 # Start projects GO env with Direnv
 function setgoenv 
