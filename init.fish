@@ -77,6 +77,11 @@ function setgoenv
    direnv allow .
 end
 
+# Create and CD into dir 
+function mkcd 
+  mkdir $argv
+  cd $argv
+end
 
 # -------------------
 # Keybindings
