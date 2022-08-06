@@ -21,6 +21,9 @@ alias vim nvim
 alias fd (which fdfind)
 alias lg lazygit
 
+alias .. 'cd ..'
+alias ... 'cd ../..'
+
 alias ls 'exa --icons'
 alias la 'exa -a --icons'
 alias ld 'exa -TD --level=2 --icons'
