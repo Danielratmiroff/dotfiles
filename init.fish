@@ -26,8 +26,8 @@ alias ... 'cd ../..'
 
 alias ls 'exa --icons'
 alias la 'exa -a --icons'
-alias ld 'exa -TD --level=2 --icons'
-alias lda 'exa -TDa --level=2 --icons'
+alias ld 'exa -TD --icons'
+alias lda 'exa -TDa --icons'
 alias ll 'exa -lT -g --sort=type --icons --level=2 --no-user --no-permissions'
 alias lla 'exa -alT -g --sort=type --icons --level=2 --no-user --octal-permissions'
 
