@@ -32,13 +32,18 @@ alias ll 'exa -lT -g --sort=type --icons --level=2 --no-user --no-permissions'
 alias lla 'exa -alT -g --sort=type --icons --level=2 --no-user --octal-permissions'
 
 alias cat='bat --paging=never'
-alias catplain='cat --style=plain'
-
+alias catp='cat --style=plain'
 # -------------------
 # Helper functions
 # -------------------
 function source_config 
   source ~/.config/omf/init.fish
+end
+
+function git-clean
+  git rm -r --cached .
+  git add .
+  git commit -m ".gitignore is now working"
 end
 
 function fish_remove_path 
