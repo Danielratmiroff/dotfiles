@@ -33,9 +33,18 @@ alias lla 'exa -alT -g --sort=type --icons --level=2 --no-user --octal-permissio
 
 alias cat='bat --paging=never'
 alias catp='cat --style=plain'
+
 # -------------------
 # Helper functions
 # -------------------
+function ap
+  "ansible-playbook" $argv 
+end
+
+function suap
+  "ansible-playbook -K " $argv 
+end
+
 function source_config 
   source ~/.config/omf/init.fish
 end
