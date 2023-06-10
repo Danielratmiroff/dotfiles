@@ -43,7 +43,7 @@ alias catp='batcat --style=plain'
 # Helper functions
 # -------------------
 
-# MicroK8s
+# Minikube
 function mk
     mminikube $argv
 end
@@ -68,6 +68,7 @@ function clean_gitignore
     git rm -r --cached .
     git add .
     git commit -m ".gitignore is now working"
+    echo "## Deleted git cache and committed the changes"
 end
 
 function fish_remove_path
