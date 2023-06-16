@@ -42,6 +42,10 @@ alias catp='batcat --style=plain'
 # -------------------
 # Helper functions
 # -------------------
+# Multipass
+function mp
+    multipass $argv
+end
 
 # Minikube
 function mk
