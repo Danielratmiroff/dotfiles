@@ -10,30 +10,31 @@ set -g theme_powerline_fonts no
 # Theme config
 # -------------------
 
-source ~/.config/fish/theme_bobthefish.fish
+source $HOME/.config/fish/theme_bobthefish.fish
 set -g -x theme_color_scheme solarized-dark
 
 # -------------------
 # Aliases 
 # -------------------
-#alias nvim '~/downloads/nvim-linux64/bin/nvim'
 alias nv nvim
 #alias fd (which fdfind)
 #alias lg lazygit
 
 # Navigation
 alias .. 'cd ..'
-alias cda 'cd ~/ansible'
-alias edit 'nv ~/dotfiles/fish/config.fish'
-#alias ... 'cd ../..'
+alias cda 'cd $HOME/automation'
+alias cds 'cd $HOME/code/bycs-messenger-android/'
+alias edit 'nv $HOME/dotfiles/fish/config.fish'
 
 # File listing
 alias ls 'exa --icons'
 alias la 'exa -a --icons'
 alias ld 'exa -TD --icons'
 alias lda 'exa -TDa --icons'
-alias ll 'exa -lT -g --sort=type --icons --level=2 --no-user'
-alias lla 'exa -alT -g --sort=type --icons --level=2 --no-user --octal-permissions'
+alias ll 'exa -lT -g --sort=type --icons --level=0 --no-user'
+alias ll 'exa -lT -g --sort=type --icons --level=1 --no-user'
+alias lla 'exa -alT -g --sort=type --icons --level=0 --no-user --octal-permissions'
+alias lla 'exa -alT -g --sort=type --icons --level=1 --no-user --octal-permissions'
 
 alias cat='batcat --paging=never'
 alias catp='batcat --style=plain'
@@ -57,15 +58,32 @@ function k
 end
 
 function ap
-    ansible-playbook $HOME/ansible/$argv
+    ansible-playbook $HOME/automation/$argv
 end
 
 function sap
-    ansible-playbook -K $HOME/ansible/$argv
+    ansible-playbook -K $HOME/automation/$argv
 end
 
 function source_config
     source $HOME/.config/fish/config.fish
+end
+
+# Git
+function g
+    git $argv
+end
+
+function gac
+    git add . && git commit -m "$argv"
+end
+
+function gp
+    git push origin $argv
+end
+
+function gcp
+    git add . && git commit -m "$argv" && git push origin
 end
 
 function clean_gitignore
@@ -141,7 +159,7 @@ end
 function fish_user_key_bindings
     # peco
     bind \cr peco_select_history # Bind for peco select history to Ctrl+R
-    bind \cf peco_change_directory # Bind for peco change directory to Ctrl+F
+    bind \cf peco_select_cd # Bind for peco change directory to Ctrl+F
 end
 
 
@@ -150,28 +168,29 @@ end
 # -------------------
 
 # Peco 
-function _peco_change_directory
-    if [ (count $argv) ]
-        peco --layout=bottom-up --query "$argv " | perl -pe 's/([ ()])/\\\\$1/g' | read foo
-    else
-        peco --layout=bottom-up | perl -pe 's/([ ()])/\\\\$1/g' | read foo
+function peco_select_cd
+    set -l query (commandline)
+    if test -n $query
+        set peco_flags --layout=bottom-up --query "$query"
     end
-    if [ $foo ]
-        builtin cd $foo
-        commandline -r ''
-        commandline -f repaint
-    else
-        commandline ''
-    end
-end
 
-function peco_change_directory
-    begin
-        echo $HOME/.config
-        ghq list -p
-        ls -ad */ | perl -pe "s#^#$PWD/#" | grep -v \.git
-        ls -ad $HOME/Developments/*/* | grep -v \.git
-    end | sed -e 's/\/$//' | awk '!a[$0]++' | _peco_change_directory $argv
+    set -l max_depth $PECO_SELECT_CD_MAX_DEPTH
+    set -l ignore_case $PECO_SELECT_CD_IGNORE_CASE
+
+    if test -z $max_depth
+        set max_depth 1
+    end
+
+    if test -z $ignore_case
+        find . -maxdepth $max_depth -type d | peco --layout=bottom-up $peco_flags | read line
+    else
+        find . -maxdepth $max_depth -type d | egrep -v $ignore_case | peco $peco_flags | read line
+    end
+
+    if test $line
+        cd $line
+        commandline -f repaint
+    end
 end
 
 function peco_select_history
