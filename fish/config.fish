@@ -74,8 +74,8 @@ function g
     git $argv
 end
 
-function gac
-    git add . && git commit -m "$argv"
+function gc
+    git commit -am "$argv"
 end
 
 function gp
@@ -83,7 +83,7 @@ function gp
 end
 
 function gcp
-    git add . && git commit -m "$argv" && git push origin
+    git commit -am "$argv" && git push origin
 end
 
 function clean_gitignore
