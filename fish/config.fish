@@ -37,7 +37,7 @@ alias lla 'exa -alT -g --sort=type --icons --level=0 --no-user --octal-permissio
 alias lla 'exa -alT -g --sort=type --icons --level=1 --no-user --octal-permissions'
 
 alias cat='batcat --paging=never'
-alias catp='batcat --style=plain'
+alias catp='batcat --style=plain --paging=never'
 
 
 # -------------------
