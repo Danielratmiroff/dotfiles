@@ -69,6 +69,10 @@ function source_config
     source $HOME/.config/fish/config.fish
 end
 
+function py
+    python3 $argv
+end
+
 # Git
 function g
     git $argv
@@ -160,6 +164,7 @@ function fish_user_key_bindings
     # peco
     bind \cr peco_select_history # Bind for peco select history to Ctrl+R
     bind \cf peco_select_cd # Bind for peco change directory to Ctrl+F
+    bind \ca peco_select_automation_script # Bind for peco change directory to Ctrl+F
 end
 
 
@@ -168,6 +173,32 @@ end
 # -------------------
 
 # Peco 
+function peco_select_automation_script
+    set -l query (commandline)
+    if test -n $query
+        set peco_flags --layout=bottom-up --query "$query"
+    end
+
+    find . -not -path '*/\.*' -type f -printf '%P\n' | peco --layout=bottom-up $peco_flags | read line
+
+    if test $line
+        echo "Running $line..."
+        # choose the command based on the extension
+        set extension (string split "." $line)[-1]
+        if test "$extension" = sh
+            sh $line
+        else if test "$extension" = yml
+            ansible-playbook -K $line
+        else if test "$extension" = yaml
+            ansible-playbook -K $line
+        else
+            echo "Unknown file type: $line with extension $extension"
+        end
+
+        commandline -f repaint
+    end
+end
+
 function peco_select_cd
     set -l query (commandline)
     if test -n $query
@@ -180,6 +211,7 @@ function peco_select_cd
     if test -z $max_depth
         set max_depth 1
     end
+
 
     if test -z $ignore_case
         find . -maxdepth $max_depth -type d | peco --layout=bottom-up $peco_flags | read line
