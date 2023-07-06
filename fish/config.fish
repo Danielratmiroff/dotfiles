@@ -23,7 +23,8 @@ alias nv nvim
 # Navigation
 alias .. 'cd ..'
 alias cda 'cd $HOME/automation'
-alias cds 'cd $HOME/code/bycs-messenger-android/'
+alias cdd 'cd $HOME/code/bycs-messenger-android/'
+alias cds 'cd $HOME/.ssh/'
 alias edit 'nv $HOME/dotfiles/fish/config.fish'
 
 # File listing
@@ -36,8 +37,11 @@ alias ll 'exa -lT -g --sort=type --icons --level=1 --no-user'
 alias lla 'exa -alT -g --sort=type --icons --level=0 --no-user --octal-permissions'
 alias lla 'exa -alT -g --sort=type --icons --level=1 --no-user --octal-permissions'
 
+# Extras
 alias cat='batcat --paging=never'
 alias catp='batcat --style=plain --paging=never'
+alias copy= 'xclip -selection clipboard'
+alias myip='ip -c -br addr'
 
 
 # -------------------
