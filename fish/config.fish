@@ -183,7 +183,7 @@ function peco_select_automation_script
         set peco_flags --layout=bottom-up --query "$query"
     end
 
-    find . -not -path '*/\.*' -type f -printf '%P\n' | peco --layout=bottom-up $peco_flags | read line
+    find $HOME/automation/ -not -path '*/\.*' -type f -printf '%P\n' | peco --layout=bottom-up $peco_flags | read line
 
     if test $line
         echo "Running $line..."
