@@ -38,10 +38,9 @@ alias lla 'exa -alT -g --sort=type --icons --level=0 --no-user --octal-permissio
 alias lla 'exa -alT -g --sort=type --icons --level=1 --no-user --octal-permissions'
 
 # Extras
-alias cat='batcat --paging=never'
-alias catp='batcat --style=plain --paging=never'
-alias copy= 'xclip -selection clipboard'
-alias myip='ip -c -br addr'
+alias catf='batcat --paging=never'
+alias cat='batcat --style=plain --paging=never'
+alias myips='ip -c -br addr'
 
 
 # -------------------
@@ -143,6 +142,9 @@ function mkcd
     cd $argv
 end
 
+function copy
+    xclip -selection clipboard
+end
 
 # -------------------
 # Set Path Variable
@@ -183,18 +185,26 @@ function peco_select_automation_script
         set peco_flags --layout=bottom-up --query "$query"
     end
 
-    find $HOME/automation/ -not -path '*/\.*' -type f -printf '%P\n' | peco --layout=bottom-up $peco_flags | read line
+    set -l automation_dir "$HOME/automation"
+    set -l hosts_file "$HOME/automation/config/hosts.ini"
+    set -l max_depth 1
+
+    find $automation_dir -maxdepth $max_depth -not -path '*/\.*' -type f -printf '%P\n' | peco --layout=bottom-up $peco_flags | read line
 
     if test $line
-        echo "Running $line..."
         # choose the command based on the extension
-        set extension (string split "." $line)[-1]
+        set -l extension (string split "." $line)[-1]
+
         if test "$extension" = sh
+            echo "Running $line..."
             sh $line
-        else if test "$extension" = yml
-            ansible-playbook -K $line
-        else if test "$extension" = yaml
-            ansible-playbook -K $line
+
+        else if test "$extension" = yml || test "$extension" = yaml
+            grep -oP '\[\K[^]]+' $hosts_file | peco --layout=bottom-up $peco_flags | read host
+
+            echo "Running $line on $host..."
+            ansible-playbook -K -i $hosts_file $automation_dir/$line -l $host
+
         else
             echo "Unknown file type: $line with extension $extension"
         end
