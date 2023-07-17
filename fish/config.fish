@@ -197,7 +197,7 @@ function peco_select_automation_script
 
         if test "$extension" = sh
             echo "Running $line..."
-            sh $line
+            sh $host_file/$line
 
         else if test "$extension" = yml || test "$extension" = yaml
             grep -oP '\[\K[^]]+' $hosts_file | peco --layout=bottom-up $peco_flags | read host
