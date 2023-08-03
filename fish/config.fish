@@ -38,7 +38,7 @@ alias lla 'exa -alT -g --sort=type --icons --level=0 --no-user --octal-permissio
 alias lla 'exa -alT -g --sort=type --icons --level=1 --no-user --octal-permissions'
 
 # Extras
-alias catf='batcat --paging=never'
+alias catp='batcat --paging=never'
 alias cat='batcat --style=plain --paging=never'
 alias myip='ip -c -br addr'
 alias del='trash -vrf'
@@ -80,6 +80,10 @@ end
 # Git
 function g
     git $argv
+end
+
+function ga
+    git add .
 end
 
 function gc
@@ -126,6 +130,19 @@ function android_studio
         case stop
             pkill java
             echo "Android Studio stopped"
+        case '*'
+            echo "Unknown command '$cmd'"
+    end
+end
+
+function study
+    set cmd $argv[1]
+
+    switch $cmd
+        case start
+            /usr/bin/bash $HOME/automation/arrange_study_desktop.sh
+        case stop
+            pkill brave
         case '*'
             echo "Unknown command '$cmd'"
     end
@@ -187,20 +204,21 @@ function peco_select_automation_script
     end
 
     set -l automation_dir "$HOME/automation"
-    set -l hosts_file "$HOME/automation/config/hosts.ini"
+    set -l hosts_file "$HOME/automation/config/hosts.ini" # Hosts file for ansible
     set -l max_depth 1
 
     find $automation_dir -maxdepth $max_depth -not -path '*/\.*' -type f -printf '%P\n' | peco --layout=bottom-up $peco_flags | read line
 
     if test $line
-        # choose the command based on the extension
+        # Choose the command based on the extension
         set -l extension (string split "." $line)[-1]
 
         if test "$extension" = sh
             echo "Running $line..."
-            sh $host_file/$line
+            /usr/bin/bash $host_file/$line
 
         else if test "$extension" = yml || test "$extension" = yaml
+            # Choose the host to run the script on
             grep -oP '\[\K[^]]+' $hosts_file | peco --layout=bottom-up $peco_flags | read host
 
             echo "Running $line on $host..."
