@@ -87,7 +87,7 @@ function ga
 end
 
 function gc
-    git commit -am "$argv"
+    git commit -a -m "$argv"
 end
 
 function gp
