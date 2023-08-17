@@ -40,7 +40,7 @@ alias lla 'exa -alT -g --sort=type --icons --level=1 --no-user --octal-permissio
 # Extras
 alias catp='batcat --paging=never'
 alias cat='batcat --style=plain --paging=never'
-alias myip='ip -c -br addr'
+alias ips='ip -c -br addr'
 alias del='trash -vrf'
 
 
