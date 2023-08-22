@@ -135,6 +135,20 @@ function android_studio
     end
 end
 
+function work
+    set cmd $argv[1]
+
+    switch $cmd
+        case start
+            /usr/bin/bash $HOME/automation/start_work_apps.sh
+        case stop
+            pkill slack
+            pkill simplenote
+        case '*'
+            echo "Unknown command '$cmd'"
+    end
+end
+
 function study
     set cmd $argv[1]
 
