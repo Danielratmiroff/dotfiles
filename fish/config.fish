@@ -9,9 +9,10 @@ set -g theme_powerline_fonts no
 # -------------------
 # Theme config
 # -------------------
-
 source $HOME/.config/fish/theme_bobthefish.fish
 set -g -x theme_color_scheme solarized-dark
+
+
 
 # -------------------
 # Aliases 
@@ -42,25 +43,29 @@ alias catp='batcat --paging=never'
 alias cat='batcat --style=plain --paging=never'
 alias ips='ip -c -br addr'
 alias del='trash -vrf'
+alias py='python3'
+
+# Multipass
+alias mp='multipass'
+
+# Kubernetes
+alias mk='minikube'
+alias kubectl='minikube kubectl --'
+alias k='kubectl'
+kubectl completion fish | source
+
+# Git
+alias g='git'
+alias ga='git add .'
+alias gc='git commit -a -m'
+alias gp='git push origin'
 
 
 # -------------------
 # Helper functions
 # -------------------
-# Multipass
-function mp
-    multipass $argv
-end
 
-# Minikube
-function mk
-    mminikube $argv
-end
-
-function k
-    minikube kubectl -- $argv
-end
-
+# Ansible
 function ap
     ansible-playbook $HOME/automation/$argv
 end
@@ -69,31 +74,7 @@ function sap
     ansible-playbook -K $HOME/automation/$argv
 end
 
-function source_config
-    source $HOME/.config/fish/config.fish
-end
-
-function py
-    python3 $argv
-end
-
 # Git
-function g
-    git $argv
-end
-
-function ga
-    git add .
-end
-
-function gc
-    git commit -a -m "$argv"
-end
-
-function gp
-    git push origin $argv
-end
-
 function gcp
     git commit -am "$argv" && git push origin
 end
@@ -105,9 +86,20 @@ function clean_gitignore
     echo "## Deleted git cache and committed the changes"
 end
 
-function fish_remove_path
-    if set -l ind (contains -i -- $argv $fish_user_paths)
-        set -e fish_user_paths[$ind]
+# Kubernetes
+function kx
+    if set -q argv[1]
+        kubectl config use-context $argv[1]
+    else
+        kubectl config current-context
+    end
+end
+
+function kn
+    if set -q argv[1]
+        kubectl config set-context --current --namespace $argv[1]
+    else
+        kubectl config view --minify | grep namespace | cut -d" " -f6
     end
 end
 
@@ -120,6 +112,37 @@ function docker_clean
     docker image prune -af
 end
 
+# Start projects GO env with Direnv
+function setgoenv
+    echo "export GOPATH=(pwd)" >>.envrc
+    direnv allow .
+end
+
+# Extras
+function mkcd
+    mkdir $argv
+    cd $argv
+end
+
+function copy
+    xclip -selection clipboard
+end
+
+function source_config
+    source $HOME/.config/fish/config.fish
+end
+
+function fish_remove_path
+    if set -l ind (contains -i -- $argv $fish_user_paths)
+        set -e fish_user_paths[$ind]
+    end
+end
+
+
+
+# -------------------
+# Start/Stop functions
+# -------------------
 function android_studio
     set cmd $argv[1]
 
@@ -162,21 +185,7 @@ function study
     end
 end
 
-# Start projects GO env with Direnv
-function setgoenv
-    echo "export GOPATH=(pwd)" >>.envrc
-    direnv allow .
-end
 
-# Create and CD into dir 
-function mkcd
-    mkdir $argv
-    cd $argv
-end
-
-function copy
-    xclip -selection clipboard
-end
 
 # -------------------
 # Set Path Variable
