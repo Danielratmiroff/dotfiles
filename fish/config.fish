@@ -22,6 +22,7 @@ alias nv nvim
 #alias lg lazygit
 
 # Navigation
+alias rm 'rm -i'
 alias .. 'cd ..'
 alias cda 'cd $HOME/automation'
 alias cdd 'cd $HOME/code/bycs-messenger-android/'
@@ -49,7 +50,7 @@ alias py='python3'
 alias mp='multipass'
 
 # Kubernetes
-alias mk='minikube'
+alias minik='minikube'
 alias kubectl='minikube kubectl --'
 alias k='kubectl'
 kubectl completion fish | source
