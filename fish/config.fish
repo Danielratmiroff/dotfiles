@@ -18,6 +18,7 @@ set -g -x theme_color_scheme solarized-dark
 # Aliases 
 # -------------------
 alias nv nvim
+alias vim nvim
 #alias fd (which fdfind)
 #alias lg lazygit
 
@@ -57,9 +58,9 @@ kubectl completion fish | source
 
 # Git
 alias g='git'
-alias ga='git add .'
-alias gc='git commit -a -m'
-alias gp='git push origin'
+alias ga='git add . '
+alias gc='git commit -a -m '
+alias gp='git push origin '
 
 
 # -------------------
@@ -139,7 +140,7 @@ function fish_remove_path
     end
 end
 
-
+jump shell fish | source
 
 # -------------------
 # Start/Stop functions
