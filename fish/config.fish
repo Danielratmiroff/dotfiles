@@ -68,6 +68,12 @@ alias gt='git tag -a '
 # Helper functions
 # -------------------
 
+
+# Not idle
+function idle
+    sh $HOME/automation/avoid_idle_time.sh
+end
+
 # Ansible
 function ap
     ansible-playbook $HOME/automation/$argv
