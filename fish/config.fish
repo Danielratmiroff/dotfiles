@@ -58,8 +58,8 @@ kubectl completion fish | source
 
 # Git
 alias g='git'
-alias ga='git add . '
-alias gc='git commit -a -m '
+alias ga='git add .'
+alias gc='git commit -m '
 alias gp='git push origin '
 alias gt='git tag -a '
 
@@ -217,8 +217,8 @@ end
 # Keybindings
 # -------------------
 function fish_user_key_bindings
-    peco
-    bind \ca peco_select_automation_script # Bind for peco change directory to Ctrl+F
+    #peco
+    #bind \ca peco_select_automation_script # Bind for peco change directory to Ctrl+F
     #bind \cr peco_select_history # Bind for peco select history to Ctrl+R
     #bind \cf peco_select_cd # Bind for peco change directory to Ctrl+F
 end
