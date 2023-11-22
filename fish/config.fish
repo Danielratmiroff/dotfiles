@@ -85,8 +85,13 @@ end
 
 # Git
 function gcp
+    git commit -m "$argv" && git push origin
+end
+
+function gacp
     git commit -am "$argv" && git push origin
 end
+
 
 function clean_gitignore
     git rm -r --cached .
