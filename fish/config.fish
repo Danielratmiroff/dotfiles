@@ -84,6 +84,11 @@ function sap
 end
 
 # Git
+function gac
+    git commit -am "$argv"
+end
+
+
 function gcp
     git commit -m "$argv" && git push origin
 end
