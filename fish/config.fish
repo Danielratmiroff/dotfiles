@@ -196,13 +196,27 @@ function study
 
     switch $cmd
         case start
-            /usr/bin/bash $HOME/automation/arrange_study_desktop.sh
+            /usr/bin/bash $HOME/automation/start_study_apps.sh
         case stop
             pkill brave
         case '*'
             echo "Unknown command '$cmd'"
     end
 end
+
+function lang
+    set cmd $argv[1]
+
+    switch $cmd
+        case start
+            /usr/bin/bash $HOME/automation/start_lang_apps.sh
+        case stop
+            pkill brave
+        case '*'
+            echo "Unknown command '$cmd'"
+    end
+end
+
 
 
 
