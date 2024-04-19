@@ -5,6 +5,7 @@ end
 set -g -x fish_greeting ''
 set -g -x GO111MODULE on
 set -g theme_powerline_fonts no
+set -g JAVA_HOME /usr/lib/jvm/java-1.17.0-openjdk-amd64
 
 # -------------------
 # Theme config
@@ -227,6 +228,7 @@ function set_path_variables
     fish_add_path bin
     fish_add_path '~/bin'
     fish_add_path '~/.local/bin/'
+    fish_add_path '$JAVA_HOME/bin'
 
     # Go stuff
     fish_add_path '/usr/local/go-1.18/bin/'
