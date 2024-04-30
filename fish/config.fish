@@ -6,6 +6,8 @@ set -g -x fish_greeting ''
 set -g -x GO111MODULE on
 set -g theme_powerline_fonts no
 set -g JAVA_HOME /usr/lib/jvm/java-1.17.0-openjdk-amd64
+# Sdui token
+set -g SONAR_TOKEN sqp_9aa5651f2d751d8f156b01ade4eb8028d54da750
 
 # -------------------
 # Theme config
