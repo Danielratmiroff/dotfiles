@@ -87,6 +87,11 @@ function sap
 end
 
 # Git
+
+function gch
+    git checkout $argv
+end
+
 function gac
     git commit -am "$argv"
 end
