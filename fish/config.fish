@@ -71,6 +71,11 @@ alias gt='git tag -a '
 # Helper functions
 # -------------------
 
+# Sonar android project
+function sonar
+    SONAR_TOKEN=sqp_9aa5651f2d751d8f156b01ade4eb8028d54da750 ./gradlew sonar
+end
+
 
 # Not idle
 function idle
@@ -87,7 +92,6 @@ function sap
 end
 
 # Git
-
 function gch
     git checkout $argv
 end
