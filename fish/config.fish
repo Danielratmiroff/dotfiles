@@ -66,7 +66,6 @@ alias gc='git commit -m '
 alias gp='git push origin '
 alias gt='git tag -a '
 
-
 # -------------------
 # Helper functions
 # -------------------
