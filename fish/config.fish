@@ -64,6 +64,7 @@ alias g='git'
 alias ga='git add .'
 alias gc='git commit -m '
 alias gp='git push origin '
+alias gpu='git push upstream '
 alias gt='git tag -a '
 
 # -------------------
