@@ -15,8 +15,6 @@ set -g SONAR_TOKEN sqp_9aa5651f2d751d8f156b01ade4eb8028d54da750
 source $HOME/.config/fish/theme_bobthefish.fish
 set -g -x theme_color_scheme solarized-dark
 
-
-
 # -------------------
 # Aliases 
 # -------------------
