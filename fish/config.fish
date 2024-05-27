@@ -106,6 +106,10 @@ function gacp
     git commit -am "$argv" && git push origin
 end
 
+function gacpu
+    git commit -am "$argv" && git push upstream
+end
+
 function add_untracked
     git status --short | grep 'A ' | cut -c4- | xargs -d '\n' git add
 end
