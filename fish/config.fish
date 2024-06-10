@@ -30,6 +30,7 @@ alias cda 'cd $HOME/automation'
 alias cdd 'cd $HOME/code/bycs-messenger-android/'
 alias cds 'cd $HOME/.ssh/'
 alias edit 'nv $HOME/dotfiles/fish/config.fish'
+alias term 'nv $HOME/dotfiles/wezterm.lua'
 
 # File listing
 alias ls 'exa --icons'
@@ -258,10 +259,10 @@ end
 # Keybindings
 # -------------------
 function fish_user_key_bindings
-    #peco
-    #bind \ca peco_select_automation_script # Bind for peco change directory to Ctrl+F
-    #bind \cr peco_select_history # Bind for peco select history to Ctrl+R
-    #bind \cf peco_select_cd # Bind for peco change directory to Ctrl+F
+    #bind \ci peco_run_prompt_ai
+    bind \ca peco_select_automation_script # Bind for peco change directory to Ctrl+F
+    bind \cr peco_select_history # Bind for peco select history to Ctrl+R
+    # bind \cf peco_select_cd # Bind for peco change directory to Ctrl+F
 end
 
 
@@ -270,6 +271,10 @@ end
 # -------------------
 
 # Peco 
+function peco_run_prompt_ai
+    ~/code/test/run_ai_chat.sh
+end
+
 function peco_select_automation_script
     set -l query (commandline)
     if test -n $query
@@ -346,3 +351,6 @@ function peco_select_history
         commandline ''
     end
 end
+
+# Created by `pipx` on 2024-06-09 11:14:12
+set PATH $PATH /home/daniel/.local/bin
