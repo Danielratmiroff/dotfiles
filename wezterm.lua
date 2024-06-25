@@ -188,7 +188,7 @@ config.keys = {
 	},
 	{
 		key = "x",
-		mods = "CTRL",
+		mods = "SHIFT|CTRL",
 		action = act.ShowLauncher,
 	},
 	{
