@@ -152,11 +152,6 @@ config.keys = {
 		action = act.QuitApplication,
 	},
 	{
-		key = "o",
-		mods = "CTRL",
-		action = act.EmitEvent("open-hx-with-scrollback"),
-	},
-	{
 		key = "1",
 		mods = "CTRL",
 		action = act.ActivatePaneDirection("Left"),

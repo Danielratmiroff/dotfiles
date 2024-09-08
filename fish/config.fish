@@ -172,6 +172,7 @@ end
 
 function source_config
     source $HOME/.config/fish/config.fish
+    source $HOME/dotfiles/fish/config.fish
 end
 
 function fish_remove_path
@@ -270,6 +271,7 @@ function fish_user_key_bindings
     #bind \cr peco_select_history # Bind for peco select history to Ctrl+R
     bind \ca fzf_select_automation_script # Bind for peco select history to Ctrl+R
     bind \cf fzf_select_cd # Bind for peco change directory to Ctrl+F
+    bind \co fzf_find_file_nvim
 end
 
 
@@ -333,6 +335,20 @@ function fzf_select_cd
         cd $selected_dir
         commandline -f repaint
     end
+end
+
+function fzf_find_file_nvim
+    set -l fzf_flags --height 40% --layout=reverse --border --prompt="🔍 " \
+        --preview 'batcat --style=numbers --color=always --line-range :300 {}' \
+        --preview-window=right:60% \
+        --color='bg:#1E1E2E,fg:#CDD6F4,header:#F38BA8,info:#CBA6F7,pointer:#F5E0DC,marker:#F5E0DC,spinner:#F5E0DC,prompt:#CBA6F7,hl:#F38BA8' \
+        --bind 'ctrl-d:preview-down,ctrl-u:preview-up,ctrl-f:preview-page-down,ctrl-b:preview-page-up'
+
+    set -l file (fdfind --type f --hidden --follow --exclude .git | fzf $fzf_flags)
+    if test -n "$file"
+        nvim $file
+    end
+    commandline -f repaint
 end
 
 # Created by `pipx` on 2024-06-09 11:14:12
