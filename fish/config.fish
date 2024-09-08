@@ -32,6 +32,7 @@ alias cds 'cd $HOME/.ssh/'
 alias cdi 'cd $HOME/code/terminaider/'
 alias edit 'nv $HOME/dotfiles/fish/config.fish'
 alias term 'nv $HOME/dotfiles/wezterm.lua'
+alias dot 'cd $HOME/dotfiles/'
 
 # File listing
 alias ls 'eza --icons'
@@ -265,91 +266,72 @@ end
 # -------------------
 function fish_user_key_bindings
     #bind \ci peco_run_prompt_ai
-    bind \ca peco_select_automation_script # Bind for peco change directory to Ctrl+F
-    bind \cr peco_select_history # Bind for peco select history to Ctrl+R
-    # bind \cf peco_select_cd # Bind for peco change directory to Ctrl+F
+    #bind \ca peco_select_automation_script # Bind for peco change directory to Ctrl+F
+    #bind \cr peco_select_history # Bind for peco select history to Ctrl+R
+    bind \ca fzf_select_automation_script # Bind for peco select history to Ctrl+R
+    bind \cf fzf_select_cd # Bind for peco change directory to Ctrl+F
 end
 
 
 # -------------------
 # Plugin's functions
 # -------------------
-
-# Peco 
-function peco_select_automation_script
+function fzf_select_automation_script
     set -l query (commandline)
-    if test -n $query
-        set peco_flags --layout=bottom-up --query "$query"
+    set -l fzf_flags --layout=reverse --height 40% --border
+    if test -n "$query"
+        set fzf_flags $fzf_flags --query "$query"
     end
-
     set -l automation_dir "$HOME/automation"
     set -l hosts_file "$HOME/automation/config/hosts.ini" # Hosts file for ansible
     set -l max_depth 1
 
-    find $automation_dir -maxdepth $max_depth -not -path '*/\.*' -type f -printf '%P\n' | peco --layout=bottom-up $peco_flags | read line
+    set -l selected_file (find $automation_dir -maxdepth $max_depth -not -path '*/\.*' -type f -printf '%P\n' | fzf $fzf_flags)
 
-    if test $line
+    if test -n "$selected_file"
         # Choose the command based on the extension
-        set -l extension (string split "." $line)[-1]
-
+        set -l extension (string split "." $selected_file)[-1]
         if test "$extension" = sh
-            echo "Running $line..."
-            /usr/bin/bash $host_file/$line
-
-        else if test "$extension" = yml || test "$extension" = yaml
+            echo "Running $selected_file..."
+            /usr/bin/bash "$automation_dir/$selected_file"
+        else if test "$extension" = yml -o "$extension" = yaml
             # Choose the host to run the script on
-            grep -oP '\[\K[^]]+' $hosts_file | peco --layout=bottom-up $peco_flags | read host
-
-            echo "Running $line on $host..."
-            ansible-playbook -K -i $hosts_file $automation_dir/$line -l $host
-
+            set -l selected_host (grep -oP '\[\K[^]]+' $hosts_file | fzf $fzf_flags)
+            if test -n "$selected_host"
+                echo "Running $selected_file on $selected_host..."
+                ansible-playbook -K -i $hosts_file "$automation_dir/$selected_file" -l $selected_host
+            else
+                echo "No host selected. Operation cancelled."
+            end
         else
-            echo "Unknown file type: $line with extension $extension"
+            echo "Unknown file type: $selected_file with extension $extension"
         end
-
         commandline -f repaint
     end
 end
 
-function peco_select_cd
+function fzf_select_cd
     set -l query (commandline)
-    if test -n $query
-        set peco_flags --layout=bottom-up --query "$query"
+    set -l fzf_flags --height 40% --layout=reverse --border --prompt="CD> " \
+        --preview 'tree -C {} | head -200' \
+        --preview-window=right:50% \
+        --color='bg+:#3B4252,bg:#2E3440,spinner:#81A1C1,hl:#616E88,fg:#D8DEE9,header:#616E88,info:#81A1C1,pointer:#81A1C1,marker:#81A1C1,fg+:#D8DEE9,prompt:#81A1C1,hl+:#81A1C1'
+
+    if test -n "$query"
+        set fzf_flags $fzf_flags --query "$query"
     end
 
-    set -l max_depth $PECO_SELECT_CD_MAX_DEPTH
-    set -l ignore_case $PECO_SELECT_CD_IGNORE_CASE
+    set -l max_depth $FZF_SELECT_CD_MAX_DEPTH
 
-    if test -z $max_depth
+    if test -z "$max_depth"
         set max_depth 1
     end
 
+    set -l selected_dir (find . -maxdepth $max_depth -type d | fzf $fzf_flags)
 
-    if test -z $ignore_case
-        find . -maxdepth $max_depth -type d | peco --layout=bottom-up $peco_flags | read line
-    else
-        find . -maxdepth $max_depth -type d | egrep -v $ignore_case | peco $peco_flags | read line
-    end
-
-    if test $line
-        cd $line
+    if test -n "$selected_dir"
+        cd $selected_dir
         commandline -f repaint
-    end
-end
-
-function peco_select_history
-    if test (count $argv) = 0
-        set peco_flags --layout=bottom-up
-    else
-        set peco_flags --layout=bottom-up --query "$argv"
-    end
-
-    history | peco $peco_flags | read foo
-
-    if [ $foo ]
-        commandline $foo
-    else
-        commandline ''
     end
 end
 
