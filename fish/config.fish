@@ -20,6 +20,7 @@ set -g -x theme_color_scheme solarized-dark
 # -------------------
 alias nv nvim
 alias vim nvim
+alias cursor '/tmp/.mount_cursoro3ExcC/cursor'
 #alias fd (which fdfind)
 #alias lg lazygit
 
