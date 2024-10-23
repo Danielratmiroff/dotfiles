@@ -72,6 +72,7 @@ alias gt='git tag -a '
 # Play
 alias gobuild='go build -o termi'
 alias ai='$HOME/code/terminaider/termi'
+alias regai='pip uninstall gai-tool && python -m build && pip install .'
 
 # -------------------
 # Helper functions
@@ -160,8 +161,6 @@ function setgoenv
     echo "export GOPATH=(pwd)" >>.envrc
     direnv allow .
 end
-
-# Extras
 function mkcd
     mkdir $argv
     cd $argv
@@ -243,8 +242,6 @@ function lang
 end
 
 
-
-
 # -------------------
 # Set Path Variable
 # -------------------
@@ -302,6 +299,8 @@ function fzf_select_automation_script
             set -l selected_host (grep -oP '\[\K[^]]+' $hosts_file | fzf $fzf_flags)
             if test -n "$selected_host"
                 echo "Running $selected_file on $selected_host..."
+                echo "Running $selected_file on $selected_host..."
+                echo "Running $selected_file on $selected_host..."
                 ansible-playbook -K -i $hosts_file "$automation_dir/$selected_file" -l $selected_host
             else
                 echo "No host selected. Operation cancelled."
@@ -351,6 +350,3 @@ function fzf_find_file_nvim
     end
     commandline -f repaint
 end
-
-# Created by `pipx` on 2024-06-09 11:14:12
-set PATH $PATH /home/daniel/.local/bin
